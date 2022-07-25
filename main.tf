@@ -2,6 +2,9 @@ resource "random_id" "random_id_prefix" {
   byte_length = 2
 }
 
+# Adding multiple AZ's to this array will work as long as you
+# supply an array with an equivalent number of subnets for
+# var.public_subnets_cidr and var.private_subnets_cidr
 locals {
   availability_zones = ["${var.region}a"]
 }
