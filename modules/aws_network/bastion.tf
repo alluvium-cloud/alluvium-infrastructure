@@ -81,5 +81,5 @@ resource "aws_eip_association" "bastion" {
 
 resource "aws_key_pair" "bastion" {
   key_name   = "${var.environment}-key"
-  public_key = file("bastion.public_key")
+  public_key = var.ssh_public_key
 }

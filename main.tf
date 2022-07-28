@@ -20,6 +20,7 @@ module "aws_network" {
   private_subnets_dhcp_cidr = var.private_subnets_dhcp_cidr
   availability_zones        = local.availability_zones
   instance_type             = var.instance_type
+  ssk_public_key            = var.ssh_public_key
 }
 
 module "hvn" {
@@ -49,9 +50,9 @@ module "vpn_wireguard" {
   environment            = var.environment
   region                 = var.region
   vpc_id                 = module.aws_network.vpc_id
-  ssh_key_pair_id        = module.aws_network.ssh_key_pair_id
   public_subnets_id      = module.aws_network.public_subnets_id
   instance_type          = var.instance_type
+  ssk_public_key         = var.ssh_public_key
   wg_server_private_key  = var.wg_server_private_key
   wg_server_net          = var.wg_server_net
   use_route53            = true

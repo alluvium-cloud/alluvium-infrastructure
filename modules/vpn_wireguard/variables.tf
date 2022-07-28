@@ -2,15 +2,14 @@ variable "region" {
   type = string
 }
 
-variable "ssh_key_pair_id" {
-  description = "A SSH public key ID to add to the VPN instance."
-}
-
 variable "instance_type" {
   default     = "t2.micro"
   description = "The machine type to launch, some machines may offer higher throughput for higher use cases."
 }
 
+variable "ssh_public_key" {
+  description = "SSH Public Key"
+}
 variable "asg_min_size" {
   default     = 1
   description = "We may want more than one machine in a scaling group, but 1 is recommended."

@@ -37,7 +37,7 @@ data "aws_ami" "ubuntu" {
 resource "aws_instance" "wireguard" {
   ami                         = data.aws_ami.ubuntu.id
   instance_type               = var.instance_type
-  key_name                    = var.ssh_key_pair_id
+  key_name                    = var.ssh_public_key
   associate_public_ip_address = true
   subnet_id                   = var.public_subnets_id[0]
   source_dest_check           = false
