@@ -10,14 +10,16 @@ locals {
 }
 
 module "aws_network" {
-  source               = "./modules/aws_network"
-  environment          = var.environment
-  region               = var.region
-  vpc_cidr             = var.vpc_cidr
-  public_subnets_cidr  = var.public_subnets_cidr
-  private_subnets_cidr = var.private_subnets_cidr
-  availability_zones   = local.availability_zones
-  instance_type        = var.instance_type
+  source                    = "./modules/aws_network"
+  environment               = var.environment
+  region                    = var.region
+  vpc_cidr                  = var.vpc_cidr
+  public_subnets_cidr       = var.public_subnets_cidr
+  private_subnets_cidr      = var.private_subnets_cidr
+  public_subnets_dhcp_cidr  = var.public_subnets_dhcp_cidr
+  private_subnets_dhcp_cidr = var.private_subnets_dhcp_cidr
+  availability_zones        = local.availability_zones
+  instance_type             = var.instance_type
 }
 
 module "hvn" {

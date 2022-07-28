@@ -62,6 +62,13 @@ resource "aws_subnet" "public_subnet" {
   }
 }
 
+resource "aws_ec2_subnet_cidr_reservation" "public_subnet" {
+  count            = length(var.public_subnets_cidr)
+  cidr_block       = element(var.public_subnets_dhcp_cidr, count.index)
+  reservation_type = "prefix"
+  subnet_id        = element(aws_subnet.public_subnet.*.id, count.index)
+}
+
 
 # Private Subnet
 resource "aws_subnet" "private_subnet" {
@@ -75,6 +82,13 @@ resource "aws_subnet" "private_subnet" {
     Name        = "${var.environment}-${element(var.availability_zones, count.index)}-private-subnet"
     Environment = "${var.environment}"
   }
+}
+
+resource "aws_ec2_subnet_cidr_reservation" "private_subnet" {
+  count            = length(var.private_subnets_cidr)
+  cidr_block       = element(var.private_subnets_dhcp_cidr, count.index)
+  reservation_type = "prefix"
+  subnet_id        = element(aws_subnet.private_subnet.*.id, count.index)
 }
 
 # Routing tables to route traffic for Private Subnet

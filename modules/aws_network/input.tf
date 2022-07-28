@@ -10,12 +10,20 @@ variable "public_subnets_cidr" {
   type        = list(any)
   description = "CIDR block for Public Subnet"
 }
+variable "public_subnets_dhcp_cidr" {
+  type        = list(any)
+  description = "CIDR block for DHCP on Public Subnet"
+}
 
 variable "private_subnets_cidr" {
   type        = list(any)
   description = "CIDR block for Private Subnet"
 }
 
+variable "private_subnets_dhcp_cidr" {
+  type        = list(any)
+  description = "CIDR block for DHCP on Private Subnet"
+}
 variable "availability_zones" {
   type        = list(any)
   description = "List of Availablity Zones"

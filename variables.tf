@@ -23,6 +23,16 @@ variable "private_subnets_cidr" {
   description = "CIDR block for Private Subnet"
 }
 
+variable "public_subnets_dhcp_cidr" {
+  type        = list(any)
+  description = "CIDR block for DHCP on Public Subnet"
+}
+
+variable "private_subnets_dhcp_cidr" {
+  type        = list(any)
+  description = "CIDR block for DHCP on Private Subnet"
+}
+
 variable "region" {
   description = "Region for the VPC"
 }
