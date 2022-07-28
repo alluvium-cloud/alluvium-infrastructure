@@ -20,7 +20,7 @@ module "aws_network" {
   private_subnets_dhcp_cidr = var.private_subnets_dhcp_cidr
   availability_zones        = local.availability_zones
   instance_type             = var.instance_type
-  ssk_public_key            = var.ssh_public_key
+  ssh_public_key            = var.ssh_public_key
 }
 
 module "hvn" {
