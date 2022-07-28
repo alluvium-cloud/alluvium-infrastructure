@@ -52,7 +52,7 @@ module "vpn_wireguard" {
   vpc_id                 = module.aws_network.vpc_id
   public_subnets_id      = module.aws_network.public_subnets_id
   instance_type          = var.instance_type
-  ssk_public_key         = var.ssh_public_key
+  ssh_public_key         = var.ssh_public_key
   wg_server_private_key  = var.wg_server_private_key
   wg_server_net          = var.wg_server_net
   use_route53            = true
