@@ -37,7 +37,7 @@ data "aws_ami" "ubuntu" {
 resource "aws_instance" "wireguard" {
   ami                         = data.aws_ami.ubuntu.id
   instance_type               = var.instance_type
-  key_name                    = var.ssh_public_key
+  key_name                    = aws_key_pair.wireguard.key_name
   associate_public_ip_address = true
   subnet_id                   = var.public_subnets_id[0]
   source_dest_check           = false
@@ -56,6 +56,11 @@ resource "aws_instance" "wireguard" {
     Name        = "${var.environment}-wireguard"
     Environment = var.environment
   }
+}
+
+resource "aws_key_pair" "wireguard" {
+  key_name_prefix = "${var.environment}-key"
+  public_key      = var.ssh_public_key
 }
 
 resource "aws_eip" "wireguard" {
