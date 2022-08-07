@@ -51,6 +51,7 @@ resource "aws_instance" "wireguard" {
     peers                 = join("\n", data.template_file.wg_client_data_json.*.rendered),
     wg_server_interface   = var.wg_server_interface
   })
+  user_data_replace_on_change = true
 
   tags = {
     Name        = "${var.environment}-wireguard"
