@@ -109,10 +109,10 @@ variable "route53_hosted_zone_id" {
   description = "Route53 Hosted zone ID."
 }
 
-variable "route53_record_name" {
+variable "route53_domain_name" {
   type        = string
   default     = null
-  description = "Route53 Record name."
+  description = "Route53 Domain (ex: hashicorp.com)"
 }
 
 variable "route53_geo" {

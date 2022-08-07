@@ -76,7 +76,7 @@ variable "route53_hosted_zone_id" {
   description = "Route53 Hosted Zone ID"
 }
 
-variable "route53_domain" {
+variable "route53_domain_name" {
   description = "Route53 Domain (ex: hashicorp.com)"
 }
 

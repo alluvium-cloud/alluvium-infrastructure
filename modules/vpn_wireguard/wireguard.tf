@@ -1,12 +1,21 @@
-
 resource "aws_route53_record" "wireguard" {
   count           = var.use_route53 ? 1 : 0
   allow_overwrite = true
   zone_id         = var.route53_hosted_zone_id
-  name            = var.route53_record_name
+  name            = "wireguard.${var.route53_domain_name}"
   type            = "A"
   ttl             = "60"
-  records         = [aws_eip.wireguard.public_ip]
+  records         = [aws_eip.bastion.public_ip]
+}
+
+resource "aws_route53_record" "wireguard-internal" {
+  count           = var.use_route53 ? 1 : 0
+  allow_overwrite = true
+  zone_id         = var.route53_hosted_zone_id
+  name            = "wireguard-internal.${var.route53_domain_name}"
+  type            = "A"
+  ttl             = "60"
+  records         = [aws_instance.bastion.private_ip]
 }
 
 data "template_file" "wg_client_data_json" {
