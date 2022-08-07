@@ -55,6 +55,7 @@ resource "aws_instance" "bastion" {
 
 
 resource "aws_security_group" "bastion" {
+  # checkov:skip=CKV_AWS_25: It's ICMP, not TCP/3389, stupid checkov
   # checkov:skip=CKV_AWS_24: SSH open by intent
   name        = "${var.environment}-bastion-security-group"
   description = "Bastion Host Security Group"
@@ -86,6 +87,8 @@ resource "aws_security_group" "bastion" {
 
   ingress {
     description = "Allow ICMP"
+    from_port   = 0
+    to_port     = 0
     protocol    = "icmp"
     cidr_blocks = ["0.0.0.0/0"]
   }
