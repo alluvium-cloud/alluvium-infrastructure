@@ -35,26 +35,33 @@ data "hcp_packer_image" "ubuntu-web" {
 }
 
 resource "aws_instance" "bastion" {
+  # checkov:skip=CKV_AWS_79: Not enabling instance metadata v2
+  # checkov:skip=CKV_AWS_126: Not paying for additional monitoring
+  # checkov:skip=CKV_AWS_8: No encryption needed
+  # checkov:skip=CKV_AWS_88: Public IP is intentional
   ami                         = data.hcp_packer_image.ubuntu-web.cloud_image_id
   instance_type               = var.instance_type
   key_name                    = aws_key_pair.bastion.key_name
   associate_public_ip_address = true
   subnet_id                   = aws_subnet.public_subnet[0].id
-
-  vpc_security_group_ids = [aws_security_group.bastion.id]
+  vpc_security_group_ids      = [aws_security_group.bastion.id]
 
   tags = {
     Name        = "${var.environment}-bastion"
     Environment = var.environment
   }
+  ebs_optimized = true
 }
 
-resource "aws_security_group" "bastion" {
-  name = "${var.environment}-bastion-security-group"
 
-  vpc_id = aws_vpc.vpc.id
+resource "aws_security_group" "bastion" {
+  # checkov:skip=CKV_AWS_24: SSH open by intent
+  name        = "${var.environment}-bastion-security-group"
+  description = "Bastion Host Security Group"
+  vpc_id      = aws_vpc.vpc.id
 
   ingress {
+    description = "SSH Inbound"
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
@@ -62,6 +69,7 @@ resource "aws_security_group" "bastion" {
   }
 
   ingress {
+    description = "Port 80 inbound"
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
@@ -69,13 +77,21 @@ resource "aws_security_group" "bastion" {
   }
 
   ingress {
+    description = "Port 443 inbound"
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  ingress {
+    description = "Allow ICMP"
+    protocol    = "icmp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
   egress {
+    description = "Wide open egress"
     from_port   = 0
     to_port     = 0
     protocol    = "-1"

@@ -44,6 +44,10 @@ data "aws_ami" "ubuntu" {
 }
 
 resource "aws_instance" "wireguard" {
+  # checkov:skip=CKV_AWS_79: Not enabline metadata v2
+  # checkov:skip=CKV_AWS_126: Not paying for additional monitoring
+  # checkov:skip=CKV_AWS_8: No encryption needed
+  # checkov:skip=CKV_AWS_88: Public IP is intentional
   ami                         = data.aws_ami.ubuntu.id
   instance_type               = var.instance_type
   key_name                    = aws_key_pair.wireguard.key_name
@@ -66,7 +70,9 @@ resource "aws_instance" "wireguard" {
     Name        = "${var.environment}-wireguard"
     Environment = var.environment
   }
+  ebs_optimized = true
 }
+
 
 resource "aws_key_pair" "wireguard" {
   key_name_prefix = "${var.environment}-key"
@@ -104,6 +110,7 @@ resource "aws_route" "default_home" {
 }
 
 resource "aws_security_group" "sg_wireguard" {
+  # checkov:skip=CKV_AWS_24: Wide open SSH for now
   name        = "${var.environment}-wireguard-${var.region}"
   description = "Terraform Managed. Allow Wireguard client traffic from internet."
   vpc_id      = var.vpc_id
@@ -116,6 +123,7 @@ resource "aws_security_group" "sg_wireguard" {
   }
 
   ingress {
+    description = "Allow connectivity to the Wireguard port"
     from_port   = var.wg_server_port
     to_port     = var.wg_server_port
     protocol    = "udp"
@@ -123,6 +131,7 @@ resource "aws_security_group" "sg_wireguard" {
   }
 
   ingress {
+    description = "Allow SSH"
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
@@ -130,6 +139,7 @@ resource "aws_security_group" "sg_wireguard" {
   }
 
   ingress {
+    description = "Allow all known subnets to talk to others through this VPN host"
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
@@ -137,6 +147,7 @@ resource "aws_security_group" "sg_wireguard" {
   }
 
   egress {
+    description = "Wide open egress"
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
