@@ -139,6 +139,14 @@ resource "aws_security_group" "sg_wireguard" {
   }
 
   ingress {
+    description = "Allow ICMP"
+    from_port   = -1
+    to_port     = -1
+    protocol    = "icmp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
     description = "Allow all known subnets to talk to others through this VPN host"
     from_port   = 0
     to_port     = 0
