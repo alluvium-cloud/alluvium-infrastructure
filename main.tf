@@ -21,6 +21,9 @@ module "aws_network" {
   availability_zones        = local.availability_zones
   instance_type             = var.instance_type
   ssh_public_key            = var.ssh_public_key
+  use_route53               = true
+  route53_record_name       = "bastion.${var.route53_domain}"
+  route53_hosted_zone_id    = var.route53_hosted_zone_id
 }
 
 module "hvn" {
@@ -56,7 +59,7 @@ module "vpn_wireguard" {
   wg_server_private_key  = var.wg_server_private_key
   wg_server_net          = var.wg_server_net
   use_route53            = true
-  route53_record_name    = var.wg_dns_name
+  route53_record_name    = "wireguard.${var.route53_domain}"
   route53_hosted_zone_id = var.route53_hosted_zone_id
   home_cidr              = var.home_cidr
   public_rtb_id          = module.aws_network.public_rtb_id

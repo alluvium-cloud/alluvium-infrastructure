@@ -40,3 +40,22 @@ variable "instance_type" {
 variable "ssh_public_key" {
   description = "SSH Public Key"
 }
+
+variable "use_route53" {
+  type        = bool
+  default     = false
+  description = "Whether to use SSM to store Wireguard Server private key."
+}
+
+variable "route53_hosted_zone_id" {
+  type        = string
+  default     = null
+  description = "Route53 Hosted zone ID."
+}
+
+variable "route53_record_name" {
+  type        = string
+  default     = null
+  description = "Route53 Record name."
+}
+

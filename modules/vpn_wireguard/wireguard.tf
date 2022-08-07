@@ -1,55 +1,137 @@
-# resource "aws_eip" "wireguard" {
-#   vpc = true
-# }
 
-# module "wireguard" {
-#   source                 = "vainkop/wireguard/aws"
-#   version                = "1.3.0"
-#   region                 = var.data
-#   ssh_key_id             = var.ssh_key_pair_id
-#   subnets_ids            = var.public_subnets_id
-#   vpc_id                 = var.vpc_id
-#   wg_server_private_key  = var.wg_server_private_key
-#   wg_client_ip           = var.wg_client_ip
-#   wg_client_public_key   = var.wg_client_public_key
-#   env                    = var.environment
-#   instance_type          = var.instance_type
-#   use_eip                = true
-#   eip_id                 = aws_eip.wireguard.id
-#   use_route53            = true
-#   route53_hosted_zone_id = var.route53_hosted_zone_id
-#   wg_server_net          = var.wg_server_net
-#   wg_clients = [
-#     {
-#       "friendly_name" = "${var.environment}-home"
-#       "public_key"    = var.wg_client_public_key
-#       "client_ip"     = var.wg_client_ip
-#     }
-#   ]
-# }
+resource "aws_route53_record" "wireguard" {
+  count           = var.use_route53 ? 1 : 0
+  allow_overwrite = true
+  zone_id         = var.route53_hosted_zone_id
+  name            = var.route53_record_name
+  type            = "A"
+  ttl             = "60"
+  records         = [aws_eip.wireguard.public_ip]
+}
 
+data "template_file" "wg_client_data_json" {
+  template = file("${path.module}/templates/client-data.tpl")
+  count    = length(var.wg_clients)
 
-# region: us-east-1
-# ssh_key_id: YOUR_SSH_KEY_HERE
-# instance_type: t2.medium
-# vpc_id: YOUR_VPC_ID_HERE
-# subnet_ids:
-#   - YOUR_SUBNET_ID_HERE
-# use_eip: true
-# use_ssm: true
-# use_route53: true
-# route53_hosted_zone_id: Z06401293ABC321ODE001
-# route53_record_name: vpn.example.com
-# route53_geo:
-#   policy:
-#   - continent: NA
-# prometheus_server_ip: 0.0.0.0/0
-# wg_server_net: 10.8.0.1/24
-# wg_server_private_key: YOUR_SERVER_PRIVATE_KEY_HERE
-# wg_clients:
-#   - friendly_name: machine-1
-#     public_key: MACHINE_1_PUBLIC_KEY_HERE
-#     client_ip: 10.8.0.2/32
-#   - friendly_name: machine-1
-#     public_key: MACHINE_1_PUBLIC_KEY_HERE
-#     client_ip: 10.8.0.3/32
+  vars = {
+    friendly_name        = var.wg_clients[count.index].friendly_name
+    client_pub_key       = var.wg_clients[count.index].public_key
+    client_ip            = var.wg_clients[count.index].client_ip
+    persistent_keepalive = var.wg_persistent_keepalive
+  }
+}
+
+data "aws_ami" "ubuntu" {
+  most_recent = true
+  filter {
+    name   = "name"
+    values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
+  }
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+  owners = ["099720109477"] # Canonical
+}
+
+resource "aws_instance" "wireguard" {
+  ami                         = data.aws_ami.ubuntu.id
+  instance_type               = var.instance_type
+  key_name                    = aws_key_pair.wireguard.key_name
+  associate_public_ip_address = true
+  subnet_id                   = var.public_subnets_id[0]
+  source_dest_check           = false
+
+  vpc_security_group_ids = [aws_security_group.sg_wireguard.id]
+
+  user_data = templatefile("${path.module}/templates/user-data.txt", {
+    wg_server_private_key = var.wg_server_private_key,
+    wg_server_net         = var.wg_server_net,
+    wg_server_port        = var.wg_server_port,
+    peers                 = join("\n", data.template_file.wg_client_data_json.*.rendered),
+    wg_server_interface   = var.wg_server_interface
+  })
+  user_data_replace_on_change = true
+
+  tags = {
+    Name        = "${var.environment}-wireguard"
+    Environment = var.environment
+  }
+}
+
+resource "aws_key_pair" "wireguard" {
+  key_name_prefix = "${var.environment}-key"
+  public_key      = var.ssh_public_key
+}
+
+resource "aws_eip" "wireguard" {
+  vpc = true
+  tags = {
+    Name = "wireguard"
+  }
+}
+
+resource "aws_eip_association" "wireguard" {
+  instance_id   = aws_instance.wireguard.id
+  allocation_id = aws_eip.wireguard.id
+}
+
+resource "aws_route" "public_home" {
+  route_table_id         = var.public_rtb_id
+  destination_cidr_block = var.home_cidr
+  network_interface_id   = aws_eip_association.wireguard.network_interface_id
+}
+
+resource "aws_route" "private_home" {
+  route_table_id         = var.private_rtb_id
+  destination_cidr_block = var.home_cidr
+  network_interface_id   = aws_eip_association.wireguard.network_interface_id
+}
+
+resource "aws_route" "default_home" {
+  route_table_id         = var.default_rtb_id
+  destination_cidr_block = var.home_cidr
+  network_interface_id   = aws_eip_association.wireguard.network_interface_id
+}
+
+resource "aws_security_group" "sg_wireguard" {
+  name        = "${var.environment}-wireguard-${var.region}"
+  description = "Terraform Managed. Allow Wireguard client traffic from internet."
+  vpc_id      = var.vpc_id
+
+  tags = {
+    Name        = "${var.environment}-wireguard-${var.region}"
+    Project     = "wireguard"
+    tf-managed  = "True"
+    Environment = var.environment
+  }
+
+  ingress {
+    from_port   = var.wg_server_port
+    to_port     = var.wg_server_port
+    protocol    = "udp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["10.100.0.0/16", "10.200.0.0/16", "192.168.1.0/24"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+

@@ -72,12 +72,12 @@ variable "wg_client_ip" {
   description = "Wireguard Client IP"
 }
 
-variable "wg_dns_name" {
-  description = "Wireguard DNS Name"
-}
-
 variable "route53_hosted_zone_id" {
   description = "Route53 Hosted Zone ID"
+}
+
+variable "route53_domain" {
+  description = "Route53 Domain (ex: hashicorp.com)"
 }
 
 variable "wg_server_net" {

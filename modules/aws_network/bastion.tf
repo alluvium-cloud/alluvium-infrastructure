@@ -1,3 +1,13 @@
+resource "aws_route53_record" "bastion" {
+  count           = var.use_route53 ? 1 : 0
+  allow_overwrite = true
+  zone_id         = var.route53_hosted_zone_id
+  name            = var.route53_record_name
+  type            = "A"
+  ttl             = "60"
+  records         = [aws_eip.bastion.public_ip]
+}
+
 variable "instance_name" {
   default = "bastion"
 }
