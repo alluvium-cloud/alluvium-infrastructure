@@ -49,7 +49,7 @@ variable "wg_server_port" {
 }
 
 variable "wg_persistent_keepalive" {
-  default     = 25
+  default     = 10
   description = "Persistent Keepalive - useful for helping connection stability over NATs."
 }
 
