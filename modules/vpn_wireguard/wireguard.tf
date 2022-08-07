@@ -5,7 +5,7 @@ resource "aws_route53_record" "wireguard" {
   name            = "wireguard.${var.route53_domain_name}"
   type            = "A"
   ttl             = "60"
-  records         = [aws_eip.bastion.public_ip]
+  records         = [aws_eip.wireguard.public_ip]
 }
 
 resource "aws_route53_record" "wireguard-internal" {
@@ -15,7 +15,7 @@ resource "aws_route53_record" "wireguard-internal" {
   name            = "wireguard-internal.${var.route53_domain_name}"
   type            = "A"
   ttl             = "60"
-  records         = [aws_instance.bastion.private_ip]
+  records         = [aws_instance.wireguard.private_ip]
 }
 
 data "template_file" "wg_client_data_json" {
