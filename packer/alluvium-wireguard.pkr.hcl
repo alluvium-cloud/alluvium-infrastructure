@@ -100,10 +100,10 @@ Alluvium Wireguard
 
   provisioner "shell" {
     inline = [
-      "apt-get update",
-      "DEBIAN_FRONTEND=noninteractive apt-get upgrade -y -o Dpkg::Options::='--force-confnew'",
-      "apt-get install -y apt-transport-https ca-certificates build-essential software-properties-common unzip curl wget gnupg net-tools jq wireguard-dkms wireguard-tools",
-      "rm -rf /var/lib/apt/lists/*",
+      "sudo apt-get update",
+      "DEBIAN_FRONTEND=noninteractive sudo apt-get upgrade -y -o Dpkg::Options::='--force-confnew'",
+      "sudo apt-get install -y apt-transport-https ca-certificates build-essential software-properties-common unzip curl wget gnupg net-tools jq wireguard-dkms wireguard-tools",
+      "sudo rm -rf /var/lib/apt/lists/*",
     ]
 
   }
