@@ -30,6 +30,15 @@ jobs:
       #   with:
       #     command: fix
 
+      # init
+      - name: Packer Init
+        uses: hashicorp/packer-github-actions@master
+        with:
+          command: init
+          arguments: -upgrade
+          target: packer/alluvium-base.pkr.hcl
+
+
       # validate templates
       - name: Validate Template
         uses: hashicorp/packer-github-actions@master
