@@ -30,15 +30,15 @@ data "template_file" "wg_client_data_json" {
   }
 }
 
-data "hcp_packer_iteration" "wireguard" {
+data "hcp_packer_iteration" "alluvium-wireguard" {
   bucket_name = "alluvium-wireguard"
   channel     = "production"
 }
 
-data "hcp_packer_image" "wireguard" {
+data "hcp_packer_image" "alluvium-wireguard" {
   bucket_name    = "alluvium-wireguard"
   cloud_provider = "aws"
-  iteration_id   = data.hcp_packer_iteration.wireguard.ulid
+  iteration_id   = data.hcp_packer_iteration.alluvium-wireguard.ulid
   region         = var.region
 }
 
@@ -47,7 +47,7 @@ resource "aws_instance" "wireguard" {
   # checkov:skip=CKV_AWS_126: Not paying for additional monitoring
   # checkov:skip=CKV_AWS_8: No encryption needed
   # checkov:skip=CKV_AWS_88: Public IP is intentional
-  ami                         = data.hcp_packer_image.wireguard.cloud_image_id
+  ami                         = data.hcp_packer_image.alluvium-wireguard.cloud_image_id
   instance_type               = var.instance_type
   key_name                    = aws_key_pair.wireguard.key_name
   associate_public_ip_address = true
