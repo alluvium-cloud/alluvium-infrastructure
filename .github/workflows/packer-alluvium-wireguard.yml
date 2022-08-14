@@ -1,6 +1,6 @@
 ---
 
-name: Packer GitHub Actions
+name: Packer - Wireguard
 #uses: hashicorp/packer-github-actions@v0.2.0
 
 # Controls when the workflow will run
@@ -8,6 +8,8 @@ on:
   # Triggers the workflow on push or pull request events but only for the "master" branch
   push:
     branches: [ "master" ]
+    paths:
+      - packer/alluvium-wireguard.pkr.hcl
   #pull_request:
   #  branches: [ "master" ]
 

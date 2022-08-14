@@ -41,8 +41,8 @@ variable "hcp_channel_source" {
 #--------------------------------------------------
 # Returh the most recent Iteration (or build) of an image, given a Channel
 data "hcp-packer-iteration" "alluvium-base" {
-  bucket_name = var.hcp_bucket_name_base
-  channel     = var.hcp_channel_base
+  bucket_name = var.hcp_bucket_name_source
+  channel     = var.hcp_channel_source
 }
 
 
