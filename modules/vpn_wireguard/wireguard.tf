@@ -30,17 +30,16 @@ data "template_file" "wg_client_data_json" {
   }
 }
 
-data "aws_ami" "ubuntu" {
-  most_recent = true
-  filter {
-    name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
-  }
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
-  owners = ["099720109477"] # Canonical
+data "hcp_packer_iteration" "wireguard" {
+  bucket_name = "alluvium-wireguard"
+  channel     = "production"
+}
+
+data "hcp_packer_image" "wireguard" {
+  bucket_name    = "alluvium-wireguard"
+  cloud_provider = "aws"
+  iteration_id   = data.hcp_packer_iteration.wireguard.ulid
+  region         = var.region
 }
 
 resource "aws_instance" "wireguard" {
@@ -48,7 +47,7 @@ resource "aws_instance" "wireguard" {
   # checkov:skip=CKV_AWS_126: Not paying for additional monitoring
   # checkov:skip=CKV_AWS_8: No encryption needed
   # checkov:skip=CKV_AWS_88: Public IP is intentional
-  ami                         = data.aws_ami.ubuntu.id
+  ami                         = data.hcp_packer_image.wireguard.cloud_image_id
   instance_type               = var.instance_type
   key_name                    = aws_key_pair.wireguard.key_name
   associate_public_ip_address = true
