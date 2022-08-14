@@ -59,7 +59,7 @@ source "amazon-ebs" "alluvium-base" {
 build {
 
   hcp_packer_registry {
-    bucket_name = alluvium-base
+    bucket_name = "alluvium-base"
     description = <<EOT
 This is the base Ubuntu image + Our "Platform" (nginx)
     EOT
