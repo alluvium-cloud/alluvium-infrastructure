@@ -22,15 +22,15 @@ variable "instance_name" {
   default = "bastion"
 }
 
-data "hcp_packer_iteration" "ubuntu-web" {
-  bucket_name = "ubuntu-web"
+data "hcp_packer_iteration" "alluvium-web" {
+  bucket_name = "alluvium-web"
   channel     = "production"
 }
 
-data "hcp_packer_image" "ubuntu-web" {
-  bucket_name    = "ubuntu-web"
+data "hcp_packer_image" "alluvium-web" {
+  bucket_name    = "alluvium-web"
   cloud_provider = "aws"
-  iteration_id   = data.hcp_packer_iteration.ubuntu-web.ulid
+  iteration_id   = data.hcp_packer_iteration.alluvium-web.ulid
   region         = var.region
 }
 
@@ -39,7 +39,7 @@ resource "aws_instance" "bastion" {
   # checkov:skip=CKV_AWS_126: Not paying for additional monitoring
   # checkov:skip=CKV_AWS_8: No encryption needed
   # checkov:skip=CKV_AWS_88: Public IP is intentional
-  ami                         = data.hcp_packer_image.ubuntu-web.cloud_image_id
+  ami                         = data.hcp_packer_image.alluvium-web.cloud_image_id
   instance_type               = var.instance_type
   key_name                    = aws_key_pair.bastion.key_name
   associate_public_ip_address = true
