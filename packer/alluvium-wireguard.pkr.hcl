@@ -60,7 +60,7 @@ data "hcp-packer-image" "aws" {
   iteration_id   = data.hcp-packer-iteration.alluvium-base.id
 }
 
-source "amazon-ebs" "alluvium-base" {
+source "amazon-ebs" "alluvium-wireguard" {
   region = var.aws_region
   source_ami = data.hcp-packer-image.aws.id
   instance_type  = "t3.micro"
