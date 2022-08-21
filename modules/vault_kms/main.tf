@@ -13,9 +13,9 @@ resource "aws_kms_alias" "vault" {
 }
 
 resource "aws_iam_user" "vault" {
-  name = "vault-kms-unseal"
+  name = "vault-unseal"
   tags = {
-    Name = "vault-kms-unseal"
+    Name = "vault-unseal"
   }
 }
 
