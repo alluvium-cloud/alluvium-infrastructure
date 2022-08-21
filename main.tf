@@ -48,6 +48,11 @@ module "hcp_vault" {
   hcp_vault_tier = var.hcp_vault_tier
 }
 
+module "vault_kms" {
+  source      = "./modules/vault_kms"
+  environment = var.environment
+}
+
 module "vpn_wireguard" {
   source                 = "./modules/vpn_wireguard"
   environment            = var.environment
