@@ -36,3 +36,7 @@ output "vault_access_key" {
 output "vault_secret_key" {
   value = module.vault_kms.vault_secret_key
 }
+
+output "vault_kms_key_id" {
+  value = module.vault_kms.vault_kms_key_id
+}
