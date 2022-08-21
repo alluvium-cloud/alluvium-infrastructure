@@ -51,6 +51,7 @@ module "hcp_vault" {
 module "vault_kms" {
   source      = "./modules/vault_kms"
   environment = var.environment
+  pgp_key     = var.pgp_key
 }
 
 module "vpn_wireguard" {

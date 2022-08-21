@@ -83,3 +83,7 @@ variable "route53_domain_name" {
 variable "wg_server_net" {
   description = "Wireguard Server CIDR (.1 with the netmask)"
 }
+
+variable "pgp_key" {
+  description = "PGP Key Parameter for IAM User Credential Creation"
+}

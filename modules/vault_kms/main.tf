@@ -13,7 +13,7 @@ resource "aws_kms_alias" "vault" {
 }
 
 resource "aws_iam_user" "vault" {
-  name = "Vault KMS Unseal"
+  name = "vault-kms-unseal"
 
   tags = {
     Name = "vault-kms-unseal"
@@ -22,7 +22,7 @@ resource "aws_iam_user" "vault" {
 
 resource "aws_iam_access_key" "vault" {
   user    = aws_iam_user.vault.name
-  pgp_key = "keybase:ericreeves"
+  pgp_key = var.pgp_key
 }
 
 resource "aws_iam_policy" "vault" {

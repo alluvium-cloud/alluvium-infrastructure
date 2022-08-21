@@ -31,8 +31,8 @@
 # }
 
 output "vault_access_key" {
-  value = vault_kms.vault_access_key
+  value = module.vault_kms.vault_access_key
 }
 output "vault_secret_key" {
-  value = vault_kms.vault_secret_key
+  value = module.vault_kms.vault_secret_key
 }
