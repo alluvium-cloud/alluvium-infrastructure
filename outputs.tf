@@ -29,3 +29,10 @@
 # output "public_route_table" {
 #   value = aws_route_table.public.id
 # }
+
+output "vault_access_key" {
+  value = vault_kms.vault_access_key
+}
+output "vault_secret_key" {
+  value = vault_kms.vault_secret_key
+}

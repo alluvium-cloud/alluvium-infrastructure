@@ -11,3 +11,42 @@ resource "aws_kms_alias" "vault" {
   name          = "alias/${var.environment}-vault-kms-unseal-key"
   target_key_id = aws_kms_key.vault.key_id
 }
+
+resource "aws_iam_user" "vault" {
+  name = "Vault KMS Unseal"
+
+  tags = {
+    Name = "vault-kms-unseal"
+  }
+}
+
+resource "aws_iam_access_key" "vault" {
+  user    = aws_iam_user.vault.name
+  pgp_key = "keybase:ericreeves"
+}
+
+resource "aws_iam_policy" "vault" {
+  name        = "vault-server-unseal"
+  description = "Vault Server KMS Unseal"
+  policy      = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": {
+    "Effect": "Allow",
+    "Action": [
+      "kms:DescribeKey",
+      "kms:GenerateDataKey",
+      "kms:Decrypt"
+    ],
+    "Resource": [
+      "${aws_kms_key.vault.arn}"
+    ]
+  }
+}
+EOF
+}
+
+resource "aws_iam_user_policy_attachment" "vault" {
+  user       = aws_iam_user.vault.name
+  policy_arn = aws_iam_policy.vault.arn
+}
