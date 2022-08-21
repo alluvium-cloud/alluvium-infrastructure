@@ -4,7 +4,7 @@ resource "aws_route53_record" "cube" {
   name            = "cube.${var.route53_domain_name}"
   type            = "A"
   ttl             = "60"
-  records         = "192.168.1.4"
+  records         = ["192.168.1.4"]
 }
 
 resource "aws_route53_record" "hypercube" {
@@ -13,7 +13,7 @@ resource "aws_route53_record" "hypercube" {
   name            = "cube.${var.route53_domain_name}"
   type            = "A"
   ttl             = "60"
-  records         = "192.168.1.5"
+  records         = ["192.168.1.5"]
 }
 
 resource "aws_route53_record" "horizon" {
@@ -22,5 +22,5 @@ resource "aws_route53_record" "horizon" {
   name            = "cube.${var.route53_domain_name}"
   type            = "A"
   ttl             = "60"
-  records         = "192.168.1.6"
+  records         = ["192.168.1.6"]
 }
