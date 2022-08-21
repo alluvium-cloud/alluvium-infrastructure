@@ -36,7 +36,7 @@ data "aws_iam_policy_document" "vault" {
 resource "aws_iam_policy" "vault" {
   name        = "vault-server-unseal"
   description = "Vault Server KMS Unseal"
-  policy      = data.aws_iam_policy_document.vault
+  policy      = data.aws_iam_policy_document.vault.json
 }
 
 resource "aws_iam_user_policy_attachment" "vault" {
