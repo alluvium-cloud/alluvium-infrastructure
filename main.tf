@@ -79,3 +79,9 @@ module "vpn_wireguard" {
     }
   ]
 }
+
+module "static_website" {
+  source                 = "./modules/static_website"
+  static_website_name    = "devops.alluvium.cloud"
+  route53_hosted_zone_id = var.route53_hosted_zone_id
+}
