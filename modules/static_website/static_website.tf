@@ -8,6 +8,17 @@ resource "aws_s3_bucket" "website_bucket" {
   }
 }
 
+resource "aws_s3_bucket_website_configuration" "website_bucket_config" {
+  bucket = aws_s3_bucket.website_bucket.bucket
+  index_document {
+    suffix = "index.html"
+  }
+  error_document {
+    key = "index.html"
+  }
+}
+
+
 data "aws_iam_policy_document" "website_policy" {
   statement {
     actions = [
