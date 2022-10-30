@@ -8,6 +8,7 @@ terraform {
       source  = "hashicorp/aws"
       version = "~> 4.23.0"
     }
+    vault = "~> 3.8.0"
   }
 
   cloud {
