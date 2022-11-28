@@ -24,3 +24,11 @@ resource "aws_route53_record" "horizon" {
   ttl             = "60"
   records         = ["192.168.1.6"]
 }
+resource "aws_route53_record" "dev" {
+  allow_overwrite = true
+  zone_id         = var.route53_hosted_zone_id
+  name            = "dev.${var.route53_domain_name}"
+  type            = "A"
+  ttl             = "60"
+  records         = ["35.86.201.37"]
+}
