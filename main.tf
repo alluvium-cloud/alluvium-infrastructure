@@ -52,12 +52,12 @@ module "vault_config" {
   source         = "./modules/vault_config"
 }
 
-module "hcp_boundary" {
-  source         = "./modules/hcp_boundary"
-  environment    = var.environment
-  hcp_boundary_admin_username = var.hcp_boundary_admin_username
-  hcp_boundary_admin_password = var.hcp_boundary_admin_password
-}
+# module "hcp_boundary" {
+#   source         = "./modules/hcp_boundary"
+#   environment    = var.environment
+#   hcp_boundary_admin_username = var.hcp_boundary_admin_username
+#   hcp_boundary_admin_password = var.hcp_boundary_admin_password
+# }
 
 # module "vault_kms" {
 #   source      = "./modules/vault_kms"
