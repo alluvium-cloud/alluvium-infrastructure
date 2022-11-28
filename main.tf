@@ -49,7 +49,7 @@ module "hcp_vault" {
 }
 
 # module "vault_config" {
-#   source = "./modules/vault_config"
+#   source         = "./modules/vault_config"
 # }
 
 # module "hcp_boundary" {
