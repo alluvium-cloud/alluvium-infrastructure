@@ -48,9 +48,9 @@ module "hcp_vault" {
   hcp_vault_tier = var.hcp_vault_tier
 }
 
-module "vault_config" {
-  source         = "./modules/vault_config"
-}
+# module "vault_config" {
+#   source         = "./modules/vault_config"
+# }
 
 # module "hcp_boundary" {
 #   source         = "./modules/hcp_boundary"
