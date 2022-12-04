@@ -1,5 +1,9 @@
 provider "vault" {
-  alias = "admin"
+  auth_login_userpass {
+    username = var.TERRAFORM_USERNAME
+
+  }
+  alias     = "admin"
   namespace = "admin"
 }
 
