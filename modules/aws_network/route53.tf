@@ -33,10 +33,10 @@ resource "aws_route53_record" "dev" {
   records         = ["35.86.201.37"]
 }
 
-resource "aws_route53_record" "ericreeves-alluvium-cloud" {
+resource "aws_route53_record" "alluvium-cloud" {
   allow_overwrite = true
   zone_id         = var.route53_hosted_zone_id
-  name            = "ericreeves.${var.route53_domain_name}"
+  name            = "${var.route53_domain_name}"
   type            = "CNAME"
   ttl             = "86400"
   records         = ["cname.vercel-dns.com."]
