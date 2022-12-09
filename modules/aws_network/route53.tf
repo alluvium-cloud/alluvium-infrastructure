@@ -24,14 +24,6 @@ resource "aws_route53_record" "horizon" {
   ttl             = "60"
   records         = ["192.168.1.6"]
 }
-resource "aws_route53_record" "dev" {
-  allow_overwrite = true
-  zone_id         = var.route53_hosted_zone_id
-  name            = "dev.${var.route53_domain_name}"
-  type            = "A"
-  ttl             = "60"
-  records         = ["35.86.201.37"]
-}
 
 resource "aws_route53_record" "alluvium-cloud" {
   allow_overwrite = true
@@ -45,6 +37,15 @@ resource "aws_route53_record" "www-alluvium-cloud" {
   allow_overwrite = true
   zone_id         = var.route53_hosted_zone_id
   name            = "www.${var.route53_domain_name}"
+  type            = "CNAME"
+  ttl             = "3600"
+  records         = ["cname.vercel-dns.com."]
+}
+
+resource "aws_route53_record" "dev-alluvium-cloud" {
+  allow_overwrite = true
+  zone_id         = var.route53_hosted_zone_id
+  name            = "dev.${var.route53_domain_name}"
   type            = "CNAME"
   ttl             = "3600"
   records         = ["cname.vercel-dns.com."]
