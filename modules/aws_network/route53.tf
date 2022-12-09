@@ -36,7 +36,7 @@ resource "aws_route53_record" "dev" {
 resource "aws_route53_record" "alluvium-cloud" {
   allow_overwrite = true
   zone_id         = var.route53_hosted_zone_id
-  name            = "@"
+  name            = "${var.route53_domain_name}"
   type            = "A"
   ttl             = "3600"
   records         = ["76.76.21.21"]
