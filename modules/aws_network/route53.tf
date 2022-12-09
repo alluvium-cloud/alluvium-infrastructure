@@ -36,8 +36,16 @@ resource "aws_route53_record" "dev" {
 resource "aws_route53_record" "alluvium-cloud" {
   allow_overwrite = true
   zone_id         = var.route53_hosted_zone_id
-  name            = "${var.route53_domain_name}"
+  name            = "@"
+  type            = "A"
+  ttl             = "3600"
+  records         = ["76.76.21.21"]
+}
+resource "aws_route53_record" "www-alluvium-cloud" {
+  allow_overwrite = true
+  zone_id         = var.route53_hosted_zone_id
+  name            = "www.${var.route53_domain_name}"
   type            = "CNAME"
-  ttl             = "86400"
+  ttl             = "3600"
   records         = ["cname.vercel-dns.com."]
 }
