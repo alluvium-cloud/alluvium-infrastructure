@@ -6,6 +6,14 @@ resource "aws_route53_record" "cube" {
   ttl             = "60"
   records         = ["192.168.1.4"]
 }
+resource "aws_route53_record" "home" {
+  allow_overwrite = true
+  zone_id         = var.route53_hosted_zone_id
+  name            = "hypercube.${var.route53_domain_name}"
+  type            = "A"
+  ttl             = "60"
+  records         = ["127.0.0.1"]
+}
 
 resource "aws_route53_record" "hypercube" {
   allow_overwrite = true
