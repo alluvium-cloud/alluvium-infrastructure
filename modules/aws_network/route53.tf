@@ -34,13 +34,22 @@ resource "aws_route53_record" "horizon" {
   records         = ["192.168.1.6"]
 }
 
-resource "aws_route53_record" "printer" {
+resource "aws_route53_record" "printer-a" {
   allow_overwrite = true
   zone_id         = var.route53_hosted_zone_id
-  name            = "localhost.${var.route53_domain_name}"
+  name            = "EPSONA9C4C6.${var.route53_domain_name}"
   type            = "A"
   ttl             = "86400"
   records         = ["192.168.1.50"]
+}
+
+resource "aws_route53_record" "printer-cname" {
+  allow_overwrite = true
+  zone_id         = var.route53_hosted_zone_id
+  name            = "printer.${var.route53_domain_name}"
+  type            = "CNAME"
+  ttl             = "86400"
+  records         = ["EPSONA9C4C6.alluvium.cloud."]
 }
 
 resource "aws_route53_record" "alluvium-cloud" {
