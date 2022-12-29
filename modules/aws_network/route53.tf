@@ -3,15 +3,16 @@ resource "aws_route53_record" "cube" {
   zone_id         = var.route53_hosted_zone_id
   name            = "cube.${var.route53_domain_name}"
   type            = "A"
-  ttl             = "60"
+  ttl             = "86400"
   records         = ["192.168.1.4"]
 }
-resource "aws_route53_record" "home" {
+
+resource "aws_route53_record" "localhost" {
   allow_overwrite = true
   zone_id         = var.route53_hosted_zone_id
-  name            = "hypercube.${var.route53_domain_name}"
+  name            = "localhost.${var.route53_domain_name}"
   type            = "A"
-  ttl             = "60"
+  ttl             = "86400"
   records         = ["127.0.0.1"]
 }
 
@@ -20,7 +21,7 @@ resource "aws_route53_record" "hypercube" {
   zone_id         = var.route53_hosted_zone_id
   name            = "hypercube.${var.route53_domain_name}"
   type            = "A"
-  ttl             = "60"
+  ttl             = "86400"
   records         = ["192.168.1.5"]
 }
 
@@ -29,8 +30,17 @@ resource "aws_route53_record" "horizon" {
   zone_id         = var.route53_hosted_zone_id
   name            = "horizon.${var.route53_domain_name}"
   type            = "A"
-  ttl             = "60"
+  ttl             = "86400"
   records         = ["192.168.1.6"]
+}
+
+resource "aws_route53_record" "printer" {
+  allow_overwrite = true
+  zone_id         = var.route53_hosted_zone_id
+  name            = "localhost.${var.route53_domain_name}"
+  type            = "A"
+  ttl             = "86400"
+  records         = ["192.168.1.50"]
 }
 
 resource "aws_route53_record" "alluvium-cloud" {
