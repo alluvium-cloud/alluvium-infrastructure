@@ -15,7 +15,7 @@ terraform {
     hostname     = "app.terraform.io"
 
     workspaces {
-      name = "alluvium-cloud"
+      name = "alluvium-infrastructure"
     }
   }
 }
