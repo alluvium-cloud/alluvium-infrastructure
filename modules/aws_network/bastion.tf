@@ -51,6 +51,10 @@
 #     Environment = var.environment
 #   }
 #   ebs_optimized = true
+#   # This is to force metadata v2, which mitigates role credential leakage in the event of a SSRF
+#	  metadata_options {
+#		  http_tokens = "required"
+#	  }
 # }
 
 
