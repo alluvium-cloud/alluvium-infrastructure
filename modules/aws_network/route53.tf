@@ -34,6 +34,15 @@ resource "aws_route53_record" "horizon" {
   records         = ["192.168.1.6"]
 }
 
+resource "aws_route53_record" "minecraft" {
+  allow_overwrite = true
+  zone_id         = var.route53_hosted_zone_id
+  name            = "minecraft.${var.route53_domain_name}"
+  type            = "A"
+  ttl             = "86400"
+  records         = ["70.235.254.231"]
+}
+
 resource "aws_route53_record" "printer-a" {
   allow_overwrite = true
   zone_id         = var.route53_hosted_zone_id
@@ -55,7 +64,7 @@ resource "aws_route53_record" "printer-cname" {
 resource "aws_route53_record" "alluvium-cloud" {
   allow_overwrite = true
   zone_id         = var.route53_hosted_zone_id
-  name            = "${var.route53_domain_name}"
+  name            = var.route53_domain_name
   type            = "A"
   ttl             = "3600"
   records         = ["76.76.21.21"]
