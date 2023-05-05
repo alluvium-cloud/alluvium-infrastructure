@@ -34,6 +34,15 @@ resource "aws_route53_record" "horizon" {
   records         = ["192.168.1.6"]
 }
 
+resource "aws_route53_record" "pve1" {
+  allow_overwrite = true
+  zone_id         = var.route53_hosted_zone_id
+  name            = "pve1.${var.route53_domain_name}"
+  type            = "A"
+  ttl             = "86400"
+  records         = ["192.168.1.7"]
+}
+
 resource "aws_route53_record" "minecraft" {
   allow_overwrite = true
   zone_id         = var.route53_hosted_zone_id
