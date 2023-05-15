@@ -52,37 +52,37 @@ resource "aws_route53_record" "nfs" {
   records         = ["192.168.1.250"]
 }
 
-resource "aws_route53_record" "server-1" {
+resource "aws_route53_record" "conad-server-1" {
   allow_overwrite = true
   zone_id         = var.route53_hosted_zone_id
-  name            = "server-1.${var.route53_domain_name}"
+  name            = "conad-server-1.${var.route53_domain_name}"
   type            = "A"
   ttl             = "86400"
   records         = ["192.168.1.230"]
 }
 
-resource "aws_route53_record" "server-2" {
+resource "aws_route53_record" "conad-server-2" {
   allow_overwrite = true
   zone_id         = var.route53_hosted_zone_id
-  name            = "server-2.${var.route53_domain_name}"
+  name            = "conad-server-2.${var.route53_domain_name}"
   type            = "A"
   ttl             = "86400"
   records         = ["192.168.1.231"]
 }
 
 
-resource "aws_route53_record" "server-3" {
+resource "aws_route53_record" "conad-server-3" {
   allow_overwrite = true
   zone_id         = var.route53_hosted_zone_id
-  name            = "server-3.${var.route53_domain_name}"
+  name            = "conad-server-3.${var.route53_domain_name}"
   type            = "A"
   ttl             = "86400"
   records         = ["192.168.1.232"]
 }
 
-resource "aws_route53_record" "client-1" {
+resource "aws_route53_record" "conad-client-1" {
   allow_overwrite = true
-  name            = "client-1.${var.route53_domain_name}"
+  name            = "conad-client-1.${var.route53_domain_name}"
   zone_id         = var.route53_hosted_zone_id
   type            = "A"
   ttl             = "86400"
@@ -90,9 +90,9 @@ resource "aws_route53_record" "client-1" {
 }
 
 
-resource "aws_route53_record" "client-2" {
+resource "aws_route53_record" "conad-client-2" {
   allow_overwrite = true
-  name            = "client-2.${var.route53_domain_name}"
+  name            = "conad-client-2.${var.route53_domain_name}"
   zone_id         = var.route53_hosted_zone_id
   type            = "A"
   ttl             = "86400"
@@ -100,9 +100,9 @@ resource "aws_route53_record" "client-2" {
 }
 
 
-resource "aws_route53_record" "client-3" {
+resource "aws_route53_record" "conad-client-3" {
   allow_overwrite = true
-  name            = "client-3.${var.route53_domain_name}"
+  name            = "conad-client-3.${var.route53_domain_name}"
   zone_id         = var.route53_hosted_zone_id
   type            = "A"
   ttl             = "86400"
