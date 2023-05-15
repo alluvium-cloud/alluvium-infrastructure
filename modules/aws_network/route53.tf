@@ -52,6 +52,15 @@ resource "aws_route53_record" "nfs" {
   records         = ["192.168.1.250"]
 }
 
+resource "aws_route53_record" "packer" {
+  allow_overwrite = true
+  zone_id         = var.route53_hosted_zone_id
+  name            = "packer.${var.route53_domain_name}"
+  type            = "A"
+  ttl             = "86400"
+  records         = ["192.168.1.249"]
+}
+
 resource "aws_route53_record" "conad-server-1" {
   allow_overwrite = true
   zone_id         = var.route53_hosted_zone_id
