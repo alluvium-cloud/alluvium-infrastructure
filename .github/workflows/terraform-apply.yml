@@ -5,40 +5,36 @@ on:
     branches:
       - main
 
+permissions:
+  contents: read
+  pull-requests: write
+
 env:
-  TF_CLOUD_ORGANIZATION: "ericreeves-demo"
-  TF_API_TOKEN: "${{ secrets.TF_API_TOKEN }}"
-  TF_WORKSPACE: "alluvium-infrastructure"
-  CONFIG_DIRECTORY: "./"
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  TERRAFORM_CLOUD_TOKENS: app.terraform.io=${{ secrets.TF_API_TOKEN }}
 
 jobs:
-  terraform:
-    name: "Terraform Apply"
+  fix_formatting:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
+    name: Fix terraform formatting in example terraform configuration
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Upload Configuration
-        uses: hashicorp/tfc-workflows-github/actions/upload-configuration@v1.0.0
-        id: apply-upload
+      - name: terraform fmt
+        uses: dflook/terraform-fmt@v1
         with:
-          workspace: ${{ env.TF_WORKSPACE }}
-          directory: ${{ env.CONFIG_DIRECTORY }}
+          workspace: alluvium-infrastructure
+  apply:
+    runs-on: ubuntu-latest
+    name: Apply terraform plan
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
 
-      - name: Create Apply Run
-        uses: hashicorp/tfc-workflows-github/actions/create-run@v1.0.0
-        id: apply-run
+      - name: terraform apply
+        uses: dflook/terraform-apply@v1
         with:
-          workspace: ${{ env.TF_WORKSPACE }}
-          configuration_version: ${{ steps.apply-upload.outputs.configuration_version_id }}
-
-      - name: Apply
-        uses: hashicorp/tfc-workflows-github/actions/apply-run@v1.0.0
-        if: fromJSON(steps.apply-run.outputs.payload).data.attributes.actions.IsConfirmable
-        id: apply
-        with:
-          run: ${{ steps.apply-run.outputs.run_id }}
-          comment: "Apply Run from GitHub Actions CI ${{ github.sha }}"
+          label: production
+          workspace: alluvium-infrastructure
+          auto_approve: true
