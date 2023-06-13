@@ -19,11 +19,23 @@ module "aws_network" {
   public_subnets_dhcp_cidr  = var.public_subnets_dhcp_cidr
   private_subnets_dhcp_cidr = var.private_subnets_dhcp_cidr
   availability_zones        = local.availability_zones
-  instance_type             = var.instance_type
   ssh_public_key            = var.ssh_public_key
   use_route53               = true
   route53_domain_name       = var.route53_domain_name
   route53_hosted_zone_id    = var.route53_hosted_zone_id
+}
+
+module "bastion" {
+  source                 = "./modules/bastion"
+  environment            = var.environment
+  region                 = var.region
+  ssh_public_key         = var.ssh_public_key
+  use_route53            = true
+  route53_domain_name    = var.route53_domain_name
+  route53_hosted_zone_id = var.route53_hosted_zone_id
+  vpc_id                 = module.aws_network.vpc_id
+  subnet_id              = module.aws_network.public_subnets_id[0]
+  instance_type          = var.instance_type
 }
 
 module "hvn" {

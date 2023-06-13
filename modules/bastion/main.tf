@@ -43,7 +43,7 @@ resource "aws_instance" "bastion" {
   instance_type               = var.instance_type
   key_name                    = aws_key_pair.bastion.key_name
   associate_public_ip_address = true
-  subnet_id                   = aws_subnet.public_subnet[0].id
+  subnet_id                   = var.subnet_id
   vpc_security_group_ids      = [aws_security_group.bastion.id]
 
   tags = {
@@ -62,7 +62,7 @@ resource "aws_security_group" "bastion" {
   # checkov:skip=CKV_AWS_24: SSH open by intent
   name        = "${var.environment}-bastion-security-group"
   description = "Bastion Host Security Group"
-  vpc_id      = aws_vpc.vpc.id
+  vpc_id      = var.vpc_id
 
   ingress {
     description = "SSH Inbound"

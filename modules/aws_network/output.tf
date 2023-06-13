@@ -40,7 +40,3 @@ output "private_rtb_id" {
 output "default_rtb_id" {
   value = aws_vpc.vpc.default_route_table_id
 }
-
-output "ssh_key_pair_id" {
-  value = aws_key_pair.bastion.id
-}

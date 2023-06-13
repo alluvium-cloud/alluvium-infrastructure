@@ -33,10 +33,6 @@ variable "region" {
   description = "Region for the VPC"
 }
 
-variable "instance_type" {
-  description = "Specifies the AWS instance type."
-}
-
 variable "ssh_public_key" {
   description = "SSH Public Key"
 }
