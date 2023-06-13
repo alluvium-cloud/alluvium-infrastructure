@@ -26,7 +26,7 @@ module "aws_network" {
 }
 
 module "bastion" {
-  count                  = 1
+  count                  = 0
   source                 = "./modules/bastion"
   environment            = var.environment
   region                 = var.region
