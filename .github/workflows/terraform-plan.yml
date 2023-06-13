@@ -46,7 +46,7 @@ jobs:
         id: plan-text
         uses: jaywcjlove/github-action-read-file@main
         with:
-          path: ./${{ steps.plan-output.text_plan_path}}
+          path: ${{ steps.plan-output.text_plan_path}}
 
       - name: Echo package.json
         run: echo "${{ steps.plan-text.outputs.content }}"
