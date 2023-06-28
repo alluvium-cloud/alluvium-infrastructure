@@ -118,6 +118,24 @@ resource "aws_route53_record" "conad-client-3" {
   records         = ["192.168.1.235"]
 }
 
+resource "aws_route53_record" "ops" {
+  allow_overwrite = true
+  name            = "ops.${var.route53_domain_name}"
+  zone_id         = var.route53_hosted_zone_id
+  type            = "A"
+  ttl             = "86400"
+  records         = ["192.168.1.236"]
+}
+
+resource "aws_route53_record" "vault-demo" {
+  allow_overwrite = true
+  name            = "vault-demo.${var.route53_domain_name}"
+  zone_id         = var.route53_hosted_zone_id
+  type            = "A"
+  ttl             = "86400"
+  records         = ["192.168.1.237"]
+}
+
 resource "aws_route53_record" "wildcard" {
   allow_overwrite = true
   zone_id         = var.route53_hosted_zone_id
