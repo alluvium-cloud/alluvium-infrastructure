@@ -16,24 +16,6 @@ resource "aws_route53_record" "localhost" {
   records         = ["127.0.0.1"]
 }
 
-resource "aws_route53_record" "hypercube" {
-  allow_overwrite = true
-  zone_id         = var.route53_hosted_zone_id
-  name            = "hypercube.${var.route53_domain_name}"
-  type            = "A"
-  ttl             = "86400"
-  records         = ["192.168.1.5"]
-}
-
-resource "aws_route53_record" "horizon" {
-  allow_overwrite = true
-  zone_id         = var.route53_hosted_zone_id
-  name            = "horizon.${var.route53_domain_name}"
-  type            = "A"
-  ttl             = "86400"
-  records         = ["192.168.1.6"]
-}
-
 resource "aws_route53_record" "pve1" {
   allow_overwrite = true
   zone_id         = var.route53_hosted_zone_id
@@ -50,90 +32,6 @@ resource "aws_route53_record" "nfs" {
   type            = "A"
   ttl             = "86400"
   records         = ["192.168.1.250"]
-}
-
-resource "aws_route53_record" "packer" {
-  allow_overwrite = true
-  zone_id         = var.route53_hosted_zone_id
-  name            = "packer.${var.route53_domain_name}"
-  type            = "A"
-  ttl             = "86400"
-  records         = ["192.168.1.249"]
-}
-
-resource "aws_route53_record" "conad-server-1" {
-  allow_overwrite = true
-  zone_id         = var.route53_hosted_zone_id
-  name            = "conad-server-1.${var.route53_domain_name}"
-  type            = "A"
-  ttl             = "86400"
-  records         = ["192.168.1.230"]
-}
-
-resource "aws_route53_record" "conad-server-2" {
-  allow_overwrite = true
-  zone_id         = var.route53_hosted_zone_id
-  name            = "conad-server-2.${var.route53_domain_name}"
-  type            = "A"
-  ttl             = "86400"
-  records         = ["192.168.1.231"]
-}
-
-
-resource "aws_route53_record" "conad-server-3" {
-  allow_overwrite = true
-  zone_id         = var.route53_hosted_zone_id
-  name            = "conad-server-3.${var.route53_domain_name}"
-  type            = "A"
-  ttl             = "86400"
-  records         = ["192.168.1.232"]
-}
-
-resource "aws_route53_record" "conad-client-1" {
-  allow_overwrite = true
-  name            = "conad-client-1.${var.route53_domain_name}"
-  zone_id         = var.route53_hosted_zone_id
-  type            = "A"
-  ttl             = "86400"
-  records         = ["192.168.1.233"]
-}
-
-
-resource "aws_route53_record" "conad-client-2" {
-  allow_overwrite = true
-  name            = "conad-client-2.${var.route53_domain_name}"
-  zone_id         = var.route53_hosted_zone_id
-  type            = "A"
-  ttl             = "86400"
-  records         = ["192.168.1.234"]
-}
-
-
-resource "aws_route53_record" "conad-client-3" {
-  allow_overwrite = true
-  name            = "conad-client-3.${var.route53_domain_name}"
-  zone_id         = var.route53_hosted_zone_id
-  type            = "A"
-  ttl             = "86400"
-  records         = ["192.168.1.235"]
-}
-
-resource "aws_route53_record" "ops" {
-  allow_overwrite = true
-  name            = "ops.${var.route53_domain_name}"
-  zone_id         = var.route53_hosted_zone_id
-  type            = "A"
-  ttl             = "86400"
-  records         = ["192.168.1.236"]
-}
-
-resource "aws_route53_record" "vault-demo" {
-  allow_overwrite = true
-  name            = "vault-demo.${var.route53_domain_name}"
-  zone_id         = var.route53_hosted_zone_id
-  type            = "A"
-  ttl             = "86400"
-  records         = ["192.168.1.237"]
 }
 
 resource "aws_route53_record" "wildcard" {
