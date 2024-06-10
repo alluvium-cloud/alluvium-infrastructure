@@ -76,22 +76,23 @@ resource "aws_route53_record" "alluvium-cloud" {
   name            = var.route53_domain_name
   type            = "A"
   ttl             = "3600"
-  records         = ["76.76.21.21"]
-}
-resource "aws_route53_record" "www-alluvium-cloud" {
-  allow_overwrite = true
-  zone_id         = var.route53_hosted_zone_id
-  name            = "www.${var.route53_domain_name}"
-  type            = "CNAME"
-  ttl             = "3600"
-  records         = ["cname.vercel-dns.com."]
+  records         = ["70.235.254.231"]
 }
 
-resource "aws_route53_record" "dev-alluvium-cloud" {
-  allow_overwrite = true
-  zone_id         = var.route53_hosted_zone_id
-  name            = "dev.${var.route53_domain_name}"
-  type            = "CNAME"
-  ttl             = "3600"
-  records         = ["cname.vercel-dns.com."]
-}
+# resource "aws_route53_record" "www-alluvium-cloud" {
+#   allow_overwrite = true
+#   zone_id         = var.route53_hosted_zone_id
+#   name            = "www.${var.route53_domain_name}"
+#   type            = "CNAME"
+#   ttl             = "3600"
+#   records         = ["cname.vercel-dns.com."]
+# }
+
+# resource "aws_route53_record" "dev-alluvium-cloud" {
+#   allow_overwrite = true
+#   zone_id         = var.route53_hosted_zone_id
+#   name            = "dev.${var.route53_domain_name}"
+#   type            = "CNAME"
+#   ttl             = "3600"
+#   records         = ["cname.vercel-dns.com."]
+# }
