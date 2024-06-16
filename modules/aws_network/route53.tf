@@ -34,15 +34,6 @@ resource "aws_route53_record" "nfs" {
   records         = ["192.168.1.250"]
 }
 
-resource "aws_route53_record" "wildcard" {
-  allow_overwrite = true
-  zone_id         = var.route53_hosted_zone_id
-  name            = "*.${var.route53_domain_name}"
-  type            = "A"
-  ttl             = "86400"
-  records         = ["70.235.254.231"]
-}
-
 resource "aws_route53_record" "minecraft" {
   allow_overwrite = true
   zone_id         = var.route53_hosted_zone_id
