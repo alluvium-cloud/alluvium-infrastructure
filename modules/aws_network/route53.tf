@@ -1,3 +1,27 @@
+# Hosted Zone for home.alluvium.cloud
+resource "aws_route53_zone" "zone_home" {
+  name    = "home.alluvium.cloud"
+  comment = "Hosted Zone for home.alluvium.cloud"
+}
+
+resource "aws_route53_record" "ns_record_home" {
+  type    = "NS"
+  zone_id = var.route53_hosted_zone_id
+  name    = "home"
+  ttl     = "86400"
+  records = aws_route53_zone.zone_home.name_servers
+}
+
+resource "aws_route53_record" "wildcard_home" {
+  zone_id = aws_route53_zone.zone_home.zone_id
+  name    = "*.home.alluvium.cloud"
+  type    = "A"
+  ttl     = "86400"
+  records = ["70.235.254.231"]
+}
+
+
+# alluvium.cloud records
 resource "aws_route53_record" "cube" {
   allow_overwrite = true
   zone_id         = var.route53_hosted_zone_id

@@ -25,19 +25,19 @@ module "aws_network" {
   route53_hosted_zone_id    = var.route53_hosted_zone_id
 }
 
-module "bastion" {
-  count                  = 0
-  source                 = "./modules/bastion"
-  environment            = var.environment
-  region                 = var.region
-  ssh_public_key         = var.ssh_public_key
-  use_route53            = true
-  route53_domain_name    = var.route53_domain_name
-  route53_hosted_zone_id = var.route53_hosted_zone_id
-  vpc_id                 = module.aws_network.vpc_id
-  subnet_id              = module.aws_network.public_subnets_id[0]
-  instance_type          = var.instance_type
-}
+# module "bastion" {
+#   count                  = 0
+#   source                 = "./modules/bastion"
+#   environment            = var.environment
+#   region                 = var.region
+#   ssh_public_key         = var.ssh_public_key
+#   use_route53            = true
+#   route53_domain_name    = var.route53_domain_name
+#   route53_hosted_zone_id = var.route53_hosted_zone_id
+#   vpc_id                 = module.aws_network.vpc_id
+#   subnet_id              = module.aws_network.public_subnets_id[0]
+#   instance_type          = var.instance_type
+# }
 
 module "hvn" {
   source         = "./modules/hvn"
