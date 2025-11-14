@@ -19,7 +19,7 @@ resource "aws_route53_record" "a_record_home" {
   zone_id = aws_route53_zone.zone_home.zone_id
   name    = "home.alluvium.cloud"
   ttl     = "300"
-  records = ["70.235.254.231"]
+  records = ["172.245.225.23"]
 }
 
 resource "aws_route53_record" "wildcard_home" {
@@ -27,7 +27,7 @@ resource "aws_route53_record" "wildcard_home" {
   name    = "*.home.alluvium.cloud"
   type    = "A"
   ttl     = "86400"
-  records = ["70.235.254.231"]
+  records = ["172.245.225.23"]
 }
 
 
@@ -74,7 +74,7 @@ resource "aws_route53_record" "minecraft" {
   name            = "minecraft.${var.route53_domain_name}"
   type            = "A"
   ttl             = "86400"
-  records         = ["70.235.254.231"]
+  records         = ["172.245.225.23"]
 }
 
 resource "aws_route53_record" "printer-a" {
@@ -101,7 +101,7 @@ resource "aws_route53_record" "alluvium-cloud" {
   name            = var.route53_domain_name
   type            = "A"
   ttl             = "3600"
-  records         = ["70.235.254.231"]
+  records         = ["172.245.225.23"]
 }
 
 # resource "aws_route53_record" "www-alluvium-cloud" {
