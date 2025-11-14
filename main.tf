@@ -10,19 +10,19 @@ locals {
 }
 
 module "aws_network" {
-  source                    = "./modules/aws_network"
-  environment               = var.environment
-  region                    = var.region
-  vpc_cidr                  = var.vpc_cidr
-  public_subnets_cidr       = var.public_subnets_cidr
-  private_subnets_cidr      = var.private_subnets_cidr
-  public_subnets_dhcp_cidr  = var.public_subnets_dhcp_cidr
-  private_subnets_dhcp_cidr = var.private_subnets_dhcp_cidr
-  availability_zones        = local.availability_zones
-  ssh_public_key            = var.ssh_public_key
-  use_route53               = true
-  route53_domain_name       = var.route53_domain_name
-  route53_hosted_zone_id    = var.route53_hosted_zone_id
+  source = "./modules/aws_network"
+  # environment = var.environment
+  region = var.region
+  # vpc_cidr                  = var.vpc_cidr
+  # public_subnets_cidr       = var.public_subnets_cidr
+  # private_subnets_cidr      = var.private_subnets_cidr
+  # public_subnets_dhcp_cidr  = var.public_subnets_dhcp_cidr
+  # private_subnets_dhcp_cidr = var.private_subnets_dhcp_cidr
+  # availability_zones        = local.availability_zones
+  # ssh_public_key            = var.ssh_public_key
+  # use_route53               = true
+  route53_domain_name    = var.route53_domain_name
+  route53_hosted_zone_id = var.route53_hosted_zone_id
 }
 
 # module "bastion" {
@@ -44,14 +44,14 @@ module "hvn" {
   cloud_provider = var.cloud_provider
   environment    = var.environment
   region         = var.region
-  vpc_cidr       = var.vpc_cidr
-  hvn_cidr       = var.hvn_cidr
-  home_cidr      = var.home_cidr
-  vpc_id         = module.aws_network.vpc_id
-  owner_id       = module.aws_network.owner_id
-  public_rtb_id  = module.aws_network.public_rtb_id
-  private_rtb_id = module.aws_network.private_rtb_id
-  default_rtb_id = module.aws_network.default_rtb_id
+  # vpc_cidr       = var.vpc_cidr
+  hvn_cidr = var.hvn_cidr
+  # home_cidr      = var.home_cidr
+  # vpc_id         = module.aws_network.vpc_id
+  # owner_id       = module.aws_network.owner_id
+  # public_rtb_id  = module.aws_network.public_rtb_id
+  # private_rtb_id = module.aws_network.private_rtb_id
+  # default_rtb_id = module.aws_network.default_rtb_id
 }
 
 module "hcp_vault" {

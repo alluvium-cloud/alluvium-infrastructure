@@ -1,26 +1,26 @@
-resource "aws_vpc_peering_connection_accepter" "peer" {
-  vpc_peering_connection_id = hcp_aws_network_peering.aws.provider_peering_id
-  auto_accept               = true
-}
-
-# Routes for HCP Subnets via HVN Peering Connection
-resource "aws_route" "public_hvn" {
-  route_table_id            = var.public_rtb_id
-  destination_cidr_block    = var.hvn_cidr
-  vpc_peering_connection_id = hcp_aws_network_peering.aws.provider_peering_id
-}
-
-resource "aws_route" "private_hvn" {
-  route_table_id            = var.private_rtb_id
-  destination_cidr_block    = var.hvn_cidr
-  vpc_peering_connection_id = hcp_aws_network_peering.aws.provider_peering_id
-}
-
-resource "aws_route" "default_hvn" {
-  route_table_id            = var.default_rtb_id
-  destination_cidr_block    = var.hvn_cidr
-  vpc_peering_connection_id = hcp_aws_network_peering.aws.provider_peering_id
-}
+# resource "aws_vpc_peering_connection_accepter" "peer" {
+#   vpc_peering_connection_id = hcp_aws_network_peering.aws.provider_peering_id
+#   auto_accept               = true
+# }
+#
+# # Routes for HCP Subnets via HVN Peering Connection
+# resource "aws_route" "public_hvn" {
+#   route_table_id            = var.public_rtb_id
+#   destination_cidr_block    = var.hvn_cidr
+#   vpc_peering_connection_id = hcp_aws_network_peering.aws.provider_peering_id
+# }
+#
+# resource "aws_route" "private_hvn" {
+#   route_table_id            = var.private_rtb_id
+#   destination_cidr_block    = var.hvn_cidr
+#   vpc_peering_connection_id = hcp_aws_network_peering.aws.provider_peering_id
+# }
+#
+# resource "aws_route" "default_hvn" {
+#   route_table_id            = var.default_rtb_id
+#   destination_cidr_block    = var.hvn_cidr
+#   vpc_peering_connection_id = hcp_aws_network_peering.aws.provider_peering_id
+# }
 
 # resource "aws_security_group" "hcp_vault" {
 #   name        = "${var.environment}-hcp-vault"
